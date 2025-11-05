@@ -1,0 +1,17 @@
+---
+- name: Deploy to Kubernetes (local)
+  hosts: localhost
+  connection: local
+  gather_facts: no
+  vars:
+    image: "yourdockerhubuser/my-app:latest"
+  tasks:
+    - name: Render k8s deployment from template
+      template:
+        src: ../k8s/deployment.yaml.j2
+        dest: /tmp/deployment.yaml
+    - name: Apply deployment
+      shell: kubectl apply -f /tmp/deployment.yaml
+      register: out
+    - debug:
+        var: out.stdout
