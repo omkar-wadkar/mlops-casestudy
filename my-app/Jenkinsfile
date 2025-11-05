@@ -1,7 +1,7 @@
 pipeline {
   agent any
   environment {
-    DOCKER_IMAGE = "yourdockerhubuser/my-app:${env.BUILD_NUMBER}"
+    DOCKER_IMAGE = "wadkaromkar/my-app:${env.BUILD_NUMBER}"
     MLFLOW_TRACKING_URI = "http://localhost:5001"
   }
   stages {
@@ -20,7 +20,7 @@ pipeline {
       steps {
         withCredentials([string(credentialsId: 'docker-hub-token', variable: 'DOCKER_TOKEN')]) {
           sh '''
-            echo $DOCKER_TOKEN | docker login -u yourdockerhubuser --password-stdin
+            echo $DOCKER_TOKEN | docker login -u wadkaromkar --password-stdin
             docker build -t $DOCKER_IMAGE .
             docker push $DOCKER_IMAGE
           '''
